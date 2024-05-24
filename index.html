@@ -1,0 +1,258 @@
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <title>Form Validation</title>
+    <style>
+      .error {
+        color: red;
+      }
+      .success {
+        color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="myForm">
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" name="firstName" /><br /><br />
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" name="lastName" /><br /><br />
+      <label for="otherNames">Other Names:</label>
+      <input type="text" id="otherNames" name="otherNames" /><br /><br />
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" /><br /><br />
+      <label for="phone">Phone Number:</label>
+      <input type="tel" id="phone" name="phone" /><br /><br />
+      <label for="gender">Gender:</label>
+      <select id="gender" name="gender">
+        <option value="">Select</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option></select
+      ><br /><br />
+      <input type="submit" value="Submit" />
+    </form>
+
+    <div id="errorMessages"></div>
+    <div id="successMessage"></div>
+
+    <script>
+      const form = document.getElementById("myForm");
+      form.addEventListener("submit", validateForm);
+
+      function validateForm(event) {
+        event.preventDefault();
+        const firstName = document.getElementById("firstName").value.trim();
+        const lastName = document.getElementById("lastName").value.trim();
+        const otherNames = document.getElementById("otherNames").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const gender = document.getElementById("gender").value;
+
+        const errorMessages = [];
+        const nameRegex = /^[a-zA-Z]+$/;
+
+        if (!firstName || !nameRegex.test(firstName)) {
+          errorMessages.push("First name cannot be empty and must contain only letters.");
+        }
+
+        if (!lastName || !nameRegex.test(lastName)) {
+          errorMessages.push("Last name cannot be empty and must contain only letters.");
+        }
+
+        if (otherNames && !nameRegex.test(otherNames)) {
+          errorMessages.push("Other names must contain only letters.");
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          errorMessages.push("Invalid email.");
+        }
+
+        if (phone.length !== 11 || !/^\d{11}$/.test(phone)) {
+          errorMessages.push("Phone number must be exactly 11 digits.");
+        }
+
+        if (!gender) {
+          errorMessages.push("Gender is required.");
+        }
+
+        const errorMessagesDiv = document.getElementById("errorMessages");
+        const successMessageDiv = document.getElementById("successMessage");
+
+        if (errorMessages.length > 0) {
+          errorMessagesDiv.innerHTML = errorMessages
+            .map((message) => `<p class="error">${message}</p>`)
+            .join("");
+          successMessageDiv.innerHTML = "";
+        } else {
+          errorMessagesDiv.innerHTML = "";
+          successMessageDiv.innerHTML = "<p class='success'>Form submitted successfully!</p>";
+
+          const formData = {
+            firstName,
+            lastName,
+            otherNames,
+            email,
+            phone,
+            gender,
+          };
+
+          fetch("/server", {  // Adjusted to match the server endpoint
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.text();  // Expecting a text response from the server
+          })
+          .then(data => {
+            console.log('Success:', data);
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            errorMessagesDiv.innerHTML = `<p class="error">There was an error submitting the form.</p>`;
+            successMessageDiv.innerHTML = "";
+          });
+        }
+      }
+    </script>
+  </body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Form Validation</title>
+    <style>
+      .error {
+        color: red;
+      }
+      .success {
+        color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="myForm">
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" name="firstName" /><br /><br />
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" name="lastName" /><br /><br />
+      <label for="otherNames">Other Names:</label>
+      <input type="text" id="otherNames" name="otherNames" /><br /><br />
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" /><br /><br />
+      <label for="phone">Phone Number:</label>
+      <input type="tel" id="phone" name="phone" /><br /><br />
+      <label for="gender">Gender:</label>
+      <select id="gender" name="gender">
+        <option value="">Select</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option></select
+      ><br /><br />
+      <input type="submit" value="Submit" />
+    </form>
+
+    <div id="errorMessages"></div>
+    <div id="successMessage"></div>
+
+    <script>
+      const form = document.getElementById("myForm");
+      form.addEventListener("submit", validateForm);
+
+      function validateForm(event) {
+        event.preventDefault();
+
+        const firstName = document.getElementById("firstName").value.trim();
+        const lastName = document.getElementById("lastName").value.trim();
+        const otherNames = document.getElementById("otherNames").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const gender = document.getElementById("gender").value;
+
+        const errorMessages = [];
+        const nameRegex = /^[a-zA-Z]+$/;
+
+        if (!firstName || !nameRegex.test(firstName)) {
+          errorMessages.push(
+            "First name cannot be empty and must contain only letters."
+          );
+        }
+
+        if (!lastName || !nameRegex.test(lastName)) {
+          errorMessages.push(
+            "Last name cannot be empty and must contain only letters."
+          );
+        }
+
+        if (otherNames && !nameRegex.test(otherNames)) {
+          errorMessages.push("Other names must contain only letters.");
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          errorMessages.push("Invalid email.");
+        }
+
+        if (phone.length !== 11 || !/^\d{11}$/.test(phone)) {
+          errorMessages.push("Phone number must be exactly 11 digits.");
+        }
+
+        if (!gender) {
+          errorMessages.push("Gender is required.");
+        }
+
+        const errorMessagesDiv = document.getElementById("errorMessages");
+        const successMessageDiv = document.getElementById("successMessage");
+
+        if (errorMessages.length > 0) {
+          errorMessagesDiv.innerHTML = errorMessages
+            .map((message) => `<p class="error">${message}</p>`)
+            .join("");
+          successMessageDiv.innerHTML = "";
+        } else {
+          errorMessagesDiv.innerHTML = "";
+          successMessageDiv.innerHTML =
+            "<p class='success'>Form submitted successfully!</p>";
+
+          const formData = {
+            firstName,
+            lastName,
+            otherNames,
+            email,
+            phone,
+            gender,
+          };
+
+          fetch("/server", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              }
+              return response.json();
+            })
+            .then((data) => {
+              console.log("Success:", data);
+              successMessageDiv.innerHTML = `<p class="success">${data.message}</p>`;
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              errorMessagesDiv.innerHTML = `<p class="error">There was an error submitting the form.</p>`;
+              successMessageDiv.innerHTML = "";
+            });
+        }
+      }
+    </script>
+  </body>
+</html>
