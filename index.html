@@ -143,16 +143,13 @@
           };
 
           try {
-            const response = await fetch(
-              "https://zuri-assignment-gamma.vercel.app/data",
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
-              }
-            );
+            const response = await fetch("http://localhost:3000/data", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(formData),
+            });
 
             if (!response.ok) {
               throw new Error("Network response was not ok");
