@@ -3,7 +3,6 @@ const fs = require("fs");
 
 const server = http.createServer((req, res) => {
   if (req.method === "OPTIONS") {
-    // Handle CORS preflight request
     res.writeHead(204, {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
